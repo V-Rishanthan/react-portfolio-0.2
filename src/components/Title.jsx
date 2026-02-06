@@ -1,12 +1,6 @@
 import { motion } from 'framer-motion';
 
-interface TitleProps {
-    title?: string;
-    heading?: string;
-    description?: string;
-}
-
-export default function Title({ title, heading, description }: TitleProps) {
+export default function Title({ title, heading, description }) {
 
     return (
         <div className="text-center mb-16">

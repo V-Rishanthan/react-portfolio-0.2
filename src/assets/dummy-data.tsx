@@ -18,35 +18,7 @@ export const servicesData = [
     }
 ];
 
-export const projectsData = [
-    {
-        id: '1',
-        title: 'CloudScale SaaS Platform',
-        category: 'Web Application',
-        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800&auto=format&fit=crop',
-        desc: 'A comprehensive dashboard for managing cloud infrastructure with real-time analytics.',
-        tech: ['Next.js', 'TypeScript', 'Tailwind', 'PostgreSQL'],
-        link: '#'
-    },
-    {
-        id: '2',
-        title: 'SwiftPay Mobile Wallet',
-        category: 'Mobile App',
-        image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=800&auto=format&fit=crop',
-        desc: 'Next-gen fintech application with biometric security and instant peer-to-peer transfers.',
-        tech: ['React Native', 'Firebase', 'State Management'],
-        link: '#'
-    },
-    {
-        id: '3',
-        title: 'HealthTrack Pro',
-        category: 'Healthcare Tech',
-        image: 'https://images.unsplash.com/photo-1576091160550-217359f48f6c?q=80&w=800&auto=format&fit=crop',
-        desc: 'AI-driven health monitoring system that tracks vitals and provides personalized insights.',
-        tech: ['React', 'Node.js', 'Python', 'AWS'],
-        link: '#'
-    }
-];
+export const projectsData = [];
 
 export const educationData = [
     {
@@ -146,9 +118,8 @@ export const footerLinks = [
     {
         title: "Social",
         links: [
-            { name: "GitHub", url: "https://github.com", icon: <GithubIcon className="size-4" /> },
-            { name: "LinkedIn", url: "https://linkedin.com", icon: <LinkedinIcon className="size-4" /> },
-            { name: "Twitter", url: "https://twitter.com", icon: <TwitterIcon className="size-4" /> }
+            { name: "GitHub", url: "https://github.com/V-Rishanthan?tab=repositories", icon: <GithubIcon className="size-4" /> },
+            { name: "LinkedIn", url: "https://www.linkedin.com/in/rishanthan-v/", icon: <LinkedinIcon className="size-4" /> },
         ]
     }
 ];

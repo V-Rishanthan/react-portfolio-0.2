@@ -41,7 +41,7 @@ export default function Skills() {
                                                 className="w-full h-full object-contain"
                                                 onError={(e) => {
                                                     // Fallback for missing icons
-                                                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${skill.name}&background=random`;
+                                                    e.target.src = `https://ui-avatars.com/api/?name=${skill.name}&background=random`;
                                                 }}
                                             />
                                         </div>

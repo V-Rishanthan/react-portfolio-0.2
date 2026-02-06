@@ -4,7 +4,7 @@ import Title from './Title';
 import { motion } from 'framer-motion';
 
 export default function About() {
-    const refs = useRef<(HTMLDivElement | null)[]>([]);
+    const refs = useRef([]);
     return (
         <section id="about" className="py-20 2xl:py-32 overflow-hidden">
             <div className="max-w-6xl mx-auto px-4">

@@ -2,8 +2,30 @@ import { GithubIcon, LinkedinIcon, TrophyIcon, Code2Icon, SparklesIcon, Download
 import { PrimaryButton, GhostButton } from './Buttons';
 import { motion } from 'framer-motion';
 import avatarUrl from '../assets/avatar.jpeg';
+import { useFirestore } from '../hooks/useFirestore';
+import { useEffect, useState } from 'react';
 
 export default function Hero() {
+
+    const { getDocument } = useFirestore("settings");
+    const [cvUrl, setCvUrl] = useState("");
+    const [loadingCv, setLoadingCv] = useState(true);
+
+    useEffect(() => {
+        const loadCv = async () => {
+            try {
+                const data = await getDocument("cv"); // Firestore: settings/cv
+                if (data?.url) setCvUrl(data.url);
+            } catch (err) {
+                console.error("Failed to load CV:", err);
+            } finally {
+                setLoadingCv(false);
+            }
+        };
+
+        loadCv();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const techStack = [
         'React', 'Next.js', 'TypeScript', 'Node.js', 'Tailwind CSS', 'PostgreSQL'
@@ -69,20 +91,27 @@ export default function Hero() {
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
                             >
-                                <a href="/cv.pdf" download>
+                                <a
+                                    href={cvUrl || "#"} download
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    onClick={(e) => {
+                                        if (!cvUrl) e.preventDefault();
+                                    }}
+                                >
                                     <PrimaryButton className="py-4 px-8 text-lg group">
-                                        Download CV
+                                        {loadingCv ? "Loading CV..." : cvUrl ? "Download CV" : "CV Not Uploaded"}
                                         <DownloadIcon className="size-5 group-hover:translate-y-1 transition-transform" />
                                     </PrimaryButton>
                                 </a>
 
                                 <div className="flex items-center gap-3">
-                                    <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://github.com/V-Rishanthan?tab=repositories" target="_blank" rel="noopener noreferrer">
                                         <GhostButton className="p-3">
                                             <GithubIcon className="size-6" />
                                         </GhostButton>
                                     </a>
-                                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                                    <a href="https://www.linkedin.com/in/rishanthan-v/" target="_blank" rel="noopener noreferrer">
                                         <GhostButton className="p-3">
                                             <LinkedinIcon className="size-6" />
                                         </GhostButton>
