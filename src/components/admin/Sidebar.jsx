@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Sidebar({ activeTab, setActiveTab, onLogout }) {
     const menuItems = [
-        { id: 'edit-cv', label: 'Edit CV', icon: FileTextIcon },
+        { id: 'settings', label: 'Settings', icon: FileTextIcon },
         { id: 'edit-projects', label: 'Manage Projects', icon: BriefcaseIcon },
     ];
 

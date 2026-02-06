@@ -8,7 +8,7 @@ import { useAuth } from '../../contaxt/AuthContext';
 
 export default function Dashboard() {
     const { logout } = useAuth();
-    const [activeTab, setActiveTab] = useState('edit-cv');
+    const [activeTab, setActiveTab] = useState('settings');
     const navigate = useNavigate();
 
     console.log("Dashboard: Active Tab is", activeTab);
@@ -25,7 +25,7 @@ export default function Dashboard() {
     const renderContent = () => {
         try {
             switch (activeTab) {
-                case 'edit-cv':
+                case 'settings':
                     return <EditCv />;
                 case 'edit-projects':
                     return <EditProject />;
