@@ -33,11 +33,11 @@ export default function Hero() {
 
 
     const scrollText = [
-        'Full Stack Developer',
-        'UI/UX Enthusiast',
-        'Open Source Contributor',
-        'Problem Solver',
-        'Clean Code Advocate'
+        'Frontend Developer',
+        'React & Next.js Developer',
+        'SEO-Friendly Web Development',
+        'React Native Developer',
+        'UI/UX Focused Engineer'
     ];
 
     return (
@@ -82,7 +82,8 @@ export default function Hero() {
                                 animate={{ y: 0, opacity: 1 }}
                                 transition={{ duration: 0.5, delay: 0.2 }}
                             >
-                                I build high-performance, beautiful web applications with a focus on user experience and scalable architecture.
+                                I build high-performance, SEO-optimized web and mobile applications with a strong focus on user experience, accessibility, performance optimization, and scalable architecture.
+                                {/* I build high-performance, beautiful web applications with a focus on user experience and scalable architecture. */}
                             </motion.p>
 
                             <motion.div
@@ -119,7 +120,7 @@ export default function Hero() {
                                 </div>
                             </motion.div>
 
-                            <motion.div
+                            {/* <motion.div
                                 className="grid grid-cols-2 gap-6"
                                 initial={{ y: 20, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
@@ -143,7 +144,7 @@ export default function Hero() {
                                         <div className="text-xs text-gray-400 uppercase tracking-tighter">Projects</div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </motion.div> */}
                         </div>
 
                         <motion.div

@@ -9,10 +9,15 @@ export default function About() {
         <section id="about" className="py-20 2xl:py-32 overflow-hidden">
             <div className="max-w-6xl mx-auto px-4">
 
+                {/* <Title
+                    title="About Me"
+                    heading="Crafting digital solutions with passion and precision"
+                    description="Passionate Software Engineer and Frontend Developer focused on building responsive, user-friendly, and SEO-optimized web and mobile applications. Experienced in modern frontend frameworks, UI/UX-driven design, performance optimization, accessibility, SOLID principles, and Agile development practices. A quick learner who enjoys working on challenging codebases and continuously improving technical skills."
+                /> */}
                 <Title
                     title="About Me"
                     heading="Crafting digital solutions with passion and precision"
-                    description="I'm a full-stack developer based in San Francisco, specializing in building exceptional digital experiences. My approach combines technical excellence with a deep understanding of user needs."
+                    description="Passionate Software Engineer and Frontend Developer focused on building responsive, user-friendly, and SEO-optimized web and mobile applications. Experienced in modern frontend frameworks, UI/UX-driven design, performance optimization, accessibility, SOLID principles, and Agile development practices. A quick learner who enjoys working on challenging codebases and continuously improving technical skills."
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">

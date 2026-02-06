@@ -12,14 +12,19 @@ import { ProjectContextProvider } from './contaxt/ProjectContext';
 import { EducationProvider } from './contaxt/EducationContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NotFound from '../src/components/NotFound';
 
 function Layout() {
 	const location = useLocation();
-	const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/login';
+	const isAdminPage = location.pathname.startsWith('/admin') || location.pathname === '/login' || location.pathname === '/dashboard';
+	const hideLayout =
+		location.pathname.startsWith("/admin") || location.pathname.startsWith("/login") || location.pathname.startsWith("/dashboard");
+
+
 
 	return (
 		<>
-			{!isAdminPage && (
+			{!hideLayout && (
 				<>
 					<SoftBackdrop />
 					<LenisScroll />
@@ -31,6 +36,7 @@ function Layout() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/admin" element={<Login />} />
 				<Route path="/admin/login" element={<Login />} />
+
 				<Route
 					path="/admin/dashboard"
 					element={
@@ -39,8 +45,12 @@ function Layout() {
 						</ProtectedRoute>
 					}
 				/>
+				<Route path="*" element={<NotFound />} />
 			</Routes>
-			{!isAdminPage && <Footer />}
+			{/* {!isAdminPage && <Footer />} */}
+			{!hideLayout && <Footer />}
+			{!hideLayout && <Navbar />}
+
 		</>
 	);
 }

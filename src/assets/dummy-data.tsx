@@ -4,17 +4,17 @@ export const servicesData = [
     {
         icon: <LayoutIcon className="w-6 h-6" />,
         title: 'Frontend Development',
-        desc: 'Building responsive, high-performance web applications using React, Next.js, and TypeScript.'
+        desc: 'Web applications using React, Next.js, and JavaScript.'
     },
     {
         icon: <DatabaseIcon className="w-6 h-6" />,
         title: 'Backend Architecture',
-        desc: 'Designing scalable APIs and database schemas with Node.js, PostgreSQL, and Redis.'
+        desc: 'Database schemas with Node.js, Mongodb, and Firebase.'
     },
     {
         icon: <SmartphoneIcon className="w-6 h-6" />,
-        title: 'Mobile Solutions',
-        desc: 'Crafting cross-platform mobile experiences using React Native and Expo.'
+        title: 'Mobile App Development',
+        desc: 'Crafting cross-platform mobile experiences using React Native '
     }
 ];
 
