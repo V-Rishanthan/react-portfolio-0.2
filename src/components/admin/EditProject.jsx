@@ -25,10 +25,10 @@ export default function EditProject() {
 
     // Form state
     const [formData, setFormData] = useState({
-        name: '',
-        stack: '',
+        title: '',
+        technologies: '',
         description: '',
-        link: '',
+        gitLink: '',
     });
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
@@ -37,19 +37,19 @@ export default function EditProject() {
         if (project) {
             setEditingProject(project);
             setFormData({
-                name: project.name || '',
-                stack: project.stack || '',
+                title: project.title || '',
+                technologies: Array.isArray(project.technologies) ? project.technologies.join(', ') : '',
                 description: project.description || '',
-                link: project.link || '',
+                gitLink: project.gitLink || '',
             });
-            setImagePreview(project.image || null);
+            setImagePreview(Array.isArray(project.imageUrls) && project.imageUrls.length > 0 ? project.imageUrls[0] : null);
         } else {
             setEditingProject(null);
             setFormData({
-                name: '',
-                stack: '',
+                title: '',
+                technologies: '',
                 description: '',
-                link: '',
+                gitLink: '',
             });
             setImagePreview(null);
         }
@@ -61,10 +61,10 @@ export default function EditProject() {
         setIsFormOpen(false);
         setEditingProject(null);
         setFormData({
-            name: '',
-            stack: '',
+            title: '',
+            technologies: '',
             description: '',
-            link: '',
+            gitLink: '',
         });
         setImageFile(null);
         setImagePreview(null);
@@ -88,21 +88,27 @@ export default function EditProject() {
         setSubmitting(true);
 
         try {
-            let imageUrl = editingProject?.image || '';
-            let imagePath = editingProject?.imagePath || '';
+            let imageUrls = editingProject?.imageUrls || [];
 
             if (imageFile) {
                 console.log("EditProject: Image file detected, starting upload...");
                 const uploadResult = await uploadImage(imageFile, "projects");
-                imageUrl = uploadResult.url;
-                imagePath = uploadResult.path;
+                imageUrls = [uploadResult.url];
             }
 
+            // Convert comma-separated technologies string to array
+            const technologiesArray = formData.technologies
+                .split(',')
+                .map(tech => tech.trim())
+                .filter(tech => tech.length > 0);
+
             const projectData = {
-                ...formData,
-                image: imageUrl,
-                imagePath: imagePath,
-                date: new Date().toISOString().split('T')[0],
+                title: formData.title,
+                technologies: technologiesArray,
+                description: formData.description,
+                gitLink: formData.gitLink,
+                imageUrls: imageUrls,
+                createdAt: editingProject?.createdAt || new Date().toISOString(),
             };
 
             if (editingProject) {
@@ -145,10 +151,10 @@ export default function EditProject() {
 
     const filteredProjects = projects ? projects.filter(p => {
         if (!p) return false;
-        const name = String(p.name || p.title || "");
-        const stack = String(p.stack || (Array.isArray(p.tech) ? p.tech.join(', ') : p.tech) || "");
-        return name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            stack.toLowerCase().includes(searchQuery.toLowerCase());
+        const title = String(p.title || "");
+        const tech = Array.isArray(p.technologies) ? p.technologies.join(', ') : "";
+        return title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            tech.toLowerCase().includes(searchQuery.toLowerCase());
     }) : [];
 
     console.log("EditProject: Filtered projects count:", filteredProjects.length);
@@ -190,27 +196,27 @@ export default function EditProject() {
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-gray-300 ml-1">Project Name</label>
+                                            <label className="text-sm font-medium text-gray-300 ml-1">Project Title</label>
                                             <input
                                                 type="text"
                                                 required
-                                                value={formData.name}
-                                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                                value={formData.title}
+                                                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                                 className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 outline-none focus:ring-2 focus:ring-primary/50"
-                                                placeholder="e.g. Portfolio Site"
+                                                placeholder="e.g. Portfolio Website"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-gray-300 ml-1">Tech Stack</label>
+                                            <label className="text-sm font-medium text-gray-300 ml-1">Technologies</label>
                                             <div className="relative">
                                                 <CodeIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
                                                 <input
                                                     type="text"
                                                     required
-                                                    value={formData.stack}
-                                                    onChange={(e) => setFormData({ ...formData, stack: e.target.value })}
+                                                    value={formData.technologies}
+                                                    onChange={(e) => setFormData({ ...formData, technologies: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-10 pr-4 outline-none focus:ring-2 focus:ring-primary/50"
-                                                    placeholder="React, Tailwind, etc."
+                                                    placeholder="React, Tailwind, Node.js (comma-separated)"
                                                 />
                                             </div>
                                         </div>
@@ -225,15 +231,15 @@ export default function EditProject() {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-sm font-medium text-gray-300 ml-1">Project Link (URL)</label>
+                                            <label className="text-sm font-medium text-gray-300 ml-1">GitHub/Project Link</label>
                                             <div className="relative">
                                                 <PaperclipIcon className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-gray-500" />
                                                 <input
                                                     type="url"
-                                                    value={formData.link}
-                                                    onChange={(e) => setFormData({ ...formData, link: e.target.value })}
+                                                    value={formData.gitLink}
+                                                    onChange={(e) => setFormData({ ...formData, gitLink: e.target.value })}
                                                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-10 pr-4 outline-none focus:ring-2 focus:ring-primary/50"
-                                                    placeholder="https://..."
+                                                    placeholder="https://github.com/..."
                                                 />
                                             </div>
                                         </div>
@@ -326,16 +332,16 @@ export default function EditProject() {
                                     >
                                         <div className="flex items-center gap-6 w-full md:w-auto">
                                             <div className="size-16 rounded-2xl bg-linear-to-br from-primary to-secondary flex items-center justify-center font-bold text-2xl shadow-lg shrink-0 overflow-hidden">
-                                                {project.imageUrls ? (
-                                                    <img src={project.image} alt={project.name || project.title || "Project"} className="w-full h-full object-cover" />
+                                                {(Array.isArray(project.imageUrls) && project.imageUrls.length > 0) ? (
+                                                    <img src={project.imageUrls[0]} alt={project.title || "Project"} className="w-full h-full object-cover" />
                                                 ) : (
-                                                    (project.name || project.title || "?")[0]
+                                                    (project.title || "?")[0]
                                                 )}
                                             </div>
                                             <div>
-                                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors">{project.name || project.title || "Untitled Project"}</h4>
-                                                <p className="text-sm text-gray-400">{project.technologies || (Array.isArray(project.tech) ? project.tech.join(', ') : project.tech) || ""}</p>
-                                                <p className="text-xs text-gray-500 mt-1">Last updated: {project.date || "N/A"}</p>
+                                                <h4 className="text-xl font-bold group-hover:text-primary transition-colors">{project.title || "Untitled Project"}</h4>
+                                                <p className="text-sm text-gray-400">{Array.isArray(project.technologies) ? project.technologies.join(', ') : ""}</p>
+                                                <p className="text-xs text-gray-500 mt-1">Created: {project.createdAt ? new Date(project.createdAt).toLocaleDateString() : "N/A"}</p>
                                             </div>
                                         </div>
 

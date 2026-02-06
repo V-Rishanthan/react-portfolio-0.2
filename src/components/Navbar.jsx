@@ -41,7 +41,7 @@ export default function Navbar() {
                 <div className='hidden md:flex items-center gap-3'>
                     <a href="#contact">
                         <PrimaryButton className='text-xs font-bold uppercase tracking-widest px-6 h-10'>
-                            Let's Talk
+                            Contact Me
                         </PrimaryButton>
                     </a>
                 </div>
@@ -81,7 +81,7 @@ export default function Navbar() {
                 >
                     <a href="#contact" onClick={() => setIsOpen(false)}>
                         <PrimaryButton className="px-12 py-5 text-xl font-bold rounded-2xl">
-                            Let's Talk
+                            Contact Me
                         </PrimaryButton>
                     </a>
                 </motion.div>

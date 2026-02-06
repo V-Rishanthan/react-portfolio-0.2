@@ -1,8 +1,8 @@
-import { ArrowUpRightIcon } from "lucide-react";
+import { Github, Palette } from "lucide-react";
 import Title from "./Title";
 import { motion } from "framer-motion";
 import { useProject } from "../contaxt/ProjectContext";
-
+import { toast } from "react-toastify";
 export default function Projects() {
     const { projects, loading } = useProject();
 
@@ -28,6 +28,7 @@ export default function Projects() {
 
         // link (prefer project link, else github link)
         const link = p?.link || p?.gitLink || "#";
+        const gitLink = p?.gitLink || "#";
 
         // image (support image OR imageUrls array)
         const image =
@@ -44,8 +45,15 @@ export default function Projects() {
                     ? p.stack.split(",").map((s) => s.trim()).filter(Boolean)
                     : [];
 
-        return { id: p?.id, name, description, category, link, image, techStack };
+        return { id: p?.id, name, description, category, link, gitLink, image, techStack };
     };
+
+    // Sort projects by createdAt (newest first)
+    const sortedProjects = [...projects].sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0);
+        const dateB = new Date(b.createdAt || 0);
+        return dateB - dateA; // Descending order (newest first)
+    });
 
     return (
         <section id="projects" className="py-20 2xl:py-32">
@@ -57,7 +65,7 @@ export default function Projects() {
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-                    {projects.map((raw, i) => {
+                    {sortedProjects.map((raw, i) => {
                         const project = normalize(raw);
 
                         return (
@@ -77,20 +85,47 @@ export default function Projects() {
                                         loading="lazy"
                                     />
 
-                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                                    {/* <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
                                         <a
-                                            href={project.link}
-                                            target={project.link === "#" ? "_self" : "_blank"}
+                                            href={project.gitLink}
+                                            target={project.gitLink === "#" ? "_self" : "_blank"}
                                             rel="noopener noreferrer"
                                             className="bg-white text-black p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-primary hover:text-white"
-                                            aria-label={`Open ${project.name}`}
+                                            aria-label={`Open GitHub for ${project.name}`}
                                             onClick={(e) => {
-                                                if (project.link === "#") e.preventDefault();
+                                                if (project.gitLink === "#") e.preventDefault();
                                             }}
                                         >
-                                            <ArrowUpRightIcon className="size-6" />
+                                            <Github className="size-6" />
                                         </a>
+                                    </div> */}
+
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm">
+                                        {project.gitLink && project.gitLink !== "#" ? (
+                                            <a
+                                                href={project.gitLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="bg-white text-black p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-primary hover:text-white"
+                                                aria-label={`Open GitHub for ${project.name}`}
+                                            >
+                                                <Github className="size-6" />
+                                            </a>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    toast.info("Design file available. Please contact the admin.")
+                                                }
+                                                className="bg-white text-black p-4 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 hover:bg-primary hover:text-white"
+                                                aria-label={`Design available for ${project.name}`}
+                                                title="Design file"
+                                            >
+                                                <Palette className="size-6" />
+                                            </button>
+                                        )}
                                     </div>
+
                                 </div>
 
                                 <div className="p-8">
